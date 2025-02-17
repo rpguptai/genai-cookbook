@@ -2,13 +2,14 @@ from dotenv import load_dotenv
 from langchain.prompts.prompt import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
+
 # from langchain_openai import ChatOpenAI
 import os
 
 if __name__ == "__main__":
     load_dotenv()
     print("Hello World")
-    print(os.environ['TEST_API_KEY'])
+    print(os.environ["TEST_API_KEY"])
 
     summary_template = """
     given the Linkedin information {information} about a person I want you to create:

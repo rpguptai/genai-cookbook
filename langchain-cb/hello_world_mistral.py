@@ -2,29 +2,28 @@ from dotenv import load_dotenv
 from langchain.prompts.prompt import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
-#from langchain_openai import ChatOpenAI
+
+# from langchain_openai import ChatOpenAI
 import os
 
 if __name__ == "__main__":
     load_dotenv()
     print("Hello World")
-    print(os.environ['TEST_API_KEY'])
+    print(os.environ["TEST_API_KEY"])
 
     summary_template = """
-    given the Linkedin information {information} about a person I want you to create:
-    1. A short summary
-    2. two interesting facts about them
+    write a poem on life
     """
-
+    # we checked that mistral was not giving very good result with summary task so changing template to write a poem
     summary_prompt_template = PromptTemplate(
         input_variables=["information"], template=summary_template
     )
 
-    #llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    # llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
     # llm = ChatOpenAI(temperature=0)
-    llm = ChatOllama(model="llama3")
+    llm = ChatOllama(model="mistral")
 
-    #chain = summary_prompt_template | llm
+    # chain = summary_prompt_template | llm
     chain = summary_prompt_template | llm | StrOutputParser()
 
     information = """
@@ -35,7 +34,7 @@ if __name__ == "__main__":
     In October 2002, eBay acquired PayPal for $1.5 billion, and that same year, with $100 million of the money he made, Musk founded SpaceX, a spaceflight services company. In 2004, he became an early investor in electric vehicle manufacturer Tesla Motors, Inc. (now Tesla, Inc.). He became its chairman and product architect, assuming the position of CEO in 2008. In 2006, Musk helped create SolarCity, a solar-energy company that was acquired by Tesla in 2016 and became Tesla Energy. In 2013, he proposed a hyperloop high-speed vactrain transportation system. In 2015, he co-founded OpenAI, a nonprofit artificial intelligence research company. The following year, Musk co-founded Neuralink—a neurotechnology company developing brain–computer interfaces—and the Boring Company, a tunnel construction company. In 2022, he acquired Twitter for $44 billion. He subsequently merged the company into newly created X Corp. and rebranded the service as X the following year. In March 2023, he founded xAI, an artificial intelligence company.
 
         """
-    
+
     res = chain.invoke(input={"information": information})
 
     print(res)
